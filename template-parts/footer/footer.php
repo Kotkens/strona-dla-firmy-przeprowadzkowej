@@ -22,7 +22,7 @@
 				</span>
 				<div class="contact-details">
 					<h4>Adres</h4>
-					<p>ul. Przykładowa 123<br>00-000 Warszawa</p>
+					<p class="address-text">ul. Przykładowa 123<br>00-000 Warszawa</p>
 				</div>
 			</div>
 		</div>

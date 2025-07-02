@@ -103,4 +103,4 @@ $cities = apply_filters('movero_map_cities', $cities);
 </section>
 
 <!-- Clearfix i separator między sekcjami -->
-<div class="section-separator" style="clear: both; height: 0; overflow: hidden; width: 100%; margin: 0; padding: 0; border: none;"></div>
+<div class="section-separator" style="clear: both; height: 0; overflow: hidden; width: 100%; margin: 0; padding: 0; border: none; line-height: 0;"></div>

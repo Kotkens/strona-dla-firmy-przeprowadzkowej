@@ -452,6 +452,7 @@ a:hover {
   display: block;
   contain: layout;
   margin: 0;
+  height: auto; /* Pozwala na dopasowanie wysokości */
 }
 
 .google-map {
@@ -462,6 +463,7 @@ a:hover {
   max-width: 100% !important;
   min-width: 0 !important;
   display: block;
+  position: relative; /* Zapobiega przemieszczaniu się mapy */
 }
 
 .map-loading {
@@ -651,6 +653,16 @@ a:hover {
   margin: 0;
   color: #ccc;
   line-height: 1.4;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  hyphens: auto;
+}
+
+.address-text {
+  max-width: 100%;
+  box-sizing: border-box;
+  padding-right: 0.5rem;
+  font-size: 0.9rem;
 }
 
 /* Footer styles */
@@ -876,6 +888,11 @@ a:hover {
 /* Mobile i małe tablety - nawigacja */
 @media (max-width: 900px) {
   .header-container {
+    padding: 0 1rem;
+    min-height: 80px;
+  }
+  
+  .logo img {
     height: 80px;
   }
   
@@ -920,8 +937,9 @@ a:hover {
     background: #217346;
     color: #fff;
     padding: 12px 2rem;
-    border-radius: 0;
-    margin: 0;
+    border-radius: 8px;
+    margin: 8px 2rem;
+    box-shadow: 0 3px 12px rgba(33, 115, 70, 0.25);
   }
   
   .mobile-menu-toggle {
@@ -1019,8 +1037,9 @@ a:hover {
     background: #217346;
     color: #fff;
     padding: 12px 2rem;
-    border-radius: 0;
-    margin: 0;
+    border-radius: 8px;
+    margin: 8px 2rem;
+    box-shadow: 0 3px 12px rgba(33, 115, 70, 0.25);
   }
   
   .mobile-menu-toggle {
@@ -1091,16 +1110,21 @@ a:hover {
   
   .map-container {
     padding: 0.5rem;
-    margin: 0;
+    margin: 0 0 1rem 0;
     max-width: 100%;
     border-radius: 8px;
     width: 100%;
     min-width: 0;
+    min-height: auto !important;
+    height: auto !important;
   }
   
   .google-map {
     height: 250px;
     border-radius: 6px;
+    position: relative;
+    z-index: 1; /* Zapobiega problemom z nakładaniem się elementów */
+    margin-bottom: 0 !important;
   }
   
   .contact-section {
@@ -1108,7 +1132,7 @@ a:hover {
   }
   
   .contact-container {
-    padding: 0 0.5rem;
+    padding: 0 1rem;
   }
   
   .contact-section h2 {
@@ -1117,23 +1141,34 @@ a:hover {
   
   .contact-info {
     gap: 1.5rem;
-    flex-direction: row;
+    flex-direction: column;
     justify-content: center;
-    flex-wrap: wrap;
+    align-items: flex-start;
+    max-width: 90%;
+    margin: 0 auto;
   }
   
   .contact-item {
-    max-width: 140px;
-    gap: 0.8rem;
-    text-align: center;
+    max-width: 100%;
+    width: 100%;
+    gap: 1rem;
+    text-align: left;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 0.5rem;
+  }
+  
+  .contact-details {
     flex: 1;
-    min-width: 120px;
+    min-width: 0;
+    text-align: left;
   }
   
   .contact-icon {
     width: 50px;
     height: 50px;
-    margin: 0 auto 0.5rem;
+    margin: 0;
   }
   
   .contact-icon svg {
@@ -1146,20 +1181,31 @@ a:hover {
 @media (max-width: 768px) {
   .contact-info {
     gap: 2rem;
-    flex-direction: row;
+    flex-direction: column;
     justify-content: center;
     flex-wrap: wrap;
+    max-width: 95%;
+    margin: 0 auto;
   }
   
   .contact-item {
-    max-width: 200px;
-    text-align: center;
+    max-width: 100%;
+    width: 100%;
+    text-align: left;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 0.5rem;
+  }
+  
+  .contact-details {
     flex: 1;
-    min-width: 180px;
+    min-width: 0;
+    text-align: left;
   }
   
   .contact-icon {
-    margin: 0 auto 0.8rem;
+    margin: 0;
   }
   
   .contact-item h4 {
@@ -1195,35 +1241,33 @@ a:hover {
   }
 }
 
-/* Bardzo małe ekrany */
-@media (max-width: 320px) {
-  .hero-title {
-    font-size: 2rem;
+/* Optymalizacja dla sekcji kontakt na bardzo małych ekranach */
+@media (max-width: 380px) {
+  .contact-section {
+    padding: 2rem 0;
   }
   
-  .hero-desc {
-    font-size: 1rem;
-  }
-  
-  .about-text h2 {
-    font-size: 2rem;
+  .contact-container {
+    padding: 0 0.8rem;
   }
   
   .contact-section h2 {
-    font-size: 1.5rem;
+    font-size: 1.6rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  .contact-info {
+    max-width: 100%;
+    gap: 1rem;
   }
   
   .contact-item {
-    max-width: 100%;
-    gap: 0.5rem;
-    text-align: center;
-    min-width: 100px;
+    padding: 0.3rem;
   }
   
   .contact-icon {
-    width: 50px;
-    height: 50px;
-    margin: 0 auto 0.3rem;
+    width: 45px;
+    height: 45px;
   }
   
   .contact-icon svg {
@@ -1231,41 +1275,18 @@ a:hover {
     height: 18px;
   }
   
-  .map-container {
-    padding: 0.25rem;
+  .contact-item h4 {
+    font-size: 1rem;
+    margin-bottom: 0.3rem;
   }
   
-  .google-map {
-    height: 200px;
+  .contact-item p {
+    font-size: 0.9rem;
+  }
+  
+  .address-text {
+    font-size: 0.9rem;
+    max-width: 100%;
+    padding-right: 0;
   }
 }
-
-/* Dodatkowe style dla siatki usług - wsparcie dla Safari i starszych przeglądarek */
-@supports not (display: grid) {
-  .services-list {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    width: 100%;
-  }
-  
-  .service-item {
-    flex: 0 0 calc(33.333% - 2rem);
-    margin: 1rem;
-    width: calc(33.333% - 2rem);
-  }
-  
-  @media (max-width: 1000px) {
-    .service-item {
-      flex: 0 0 calc(50% - 2rem);
-    }
-  }
-  
-  @media (max-width: 600px) {
-    .service-item {
-      flex: 0 0 calc(100% - 2rem);
-    }
-  }
-}
-
-/* ---- KONIEC STYLI USŁUG ---- */

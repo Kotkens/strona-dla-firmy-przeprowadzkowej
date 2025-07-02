@@ -83,6 +83,11 @@
   font-size: clamp(1.8rem, 4vw, 2.6rem);
   font-weight: 900;
   line-height: 1.15;
+  /* Dodane właściwości zapobiegające ucięciu tekstu */
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  hyphens: auto;
+  width: 100%;
 }
 
 .hero__highlight {
@@ -114,6 +119,11 @@
   color: #fff;
   transform: translateY(-2px);
   box-shadow: 0 5px 16px rgba(33, 115, 70, 0.35);
+}
+
+/* Ukryj łamanie linii dla większych ekranów */
+.mobile-break {
+  display: none;
 }
 
 /* responsywność: obraz nad tekstem poniżej 1200px */
@@ -151,6 +161,31 @@
   .hero__content {
     padding: 1.5rem;
   }
+  .hero__title {
+    font-size: clamp(1.5rem, 3vw, 2rem);
+  }
+}
+
+/* Dodatkowe media query dla najmniejszych ekranów */
+@media (max-width: 480px) {
+  .hero__title {
+    font-size: 1.4rem;
+    line-height: 1.3;
+  }
+  .hero__desc {
+    font-size: 0.95rem;
+  }
+  .hero__content {
+    padding: 1.2rem 1rem;
+  }
+  .btn {
+    padding: 0.7em 1.4em;
+    font-size: 0.85rem;
+  }
+  /* Pokaż łamanie linii na małych ekranach */
+  .mobile-break {
+    display: inline;
+  }
 }
 </style>
 
@@ -165,7 +200,7 @@
     
     <h1 class="hero__title">
       <span class="hero__highlight">MOVERO</span><br>
-      TWOJA ZAUFANA FIRMA PRZEPROWADZKOWA
+      TWOJA ZAUFANA<br class="mobile-break"> FIRMA PRZEPROWADZKOWA
     </h1>
 
     <p class="hero__desc">

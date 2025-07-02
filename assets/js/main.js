@@ -135,17 +135,49 @@ document.addEventListener('DOMContentLoaded', function() {
         mapContainer.style.width = '100%';
         mapContainer.style.maxWidth = '100%';
         mapContainer.style.minWidth = '0';
+        mapContainer.style.position = 'relative';
+        mapContainer.style.zIndex = '1';
         
         // Also force parent containers
         const aboutMap = mapContainer.closest('.about-map');
+        const mapContainer2 = mapContainer.closest('.map-container');
         const aboutContent = mapContainer.closest('.about-content');
+        
         if (aboutMap) {
             aboutMap.style.width = '100%';
             aboutMap.style.maxWidth = '100%';
         }
+        
+        if (mapContainer2) {
+            if (window.innerWidth <= 480) {
+                // Na małych ekranach eliminacja pustej przestrzeni
+                mapContainer2.style.minHeight = 'auto';
+                mapContainer2.style.height = 'auto';
+                mapContainer2.style.overflow = 'visible';
+                mapContainer2.style.marginBottom = '1rem';
+            } else {
+                mapContainer2.style.height = 'auto';
+                mapContainer2.style.overflow = 'visible';
+                mapContainer2.style.marginBottom = '2rem';
+            }
+        }
+        
         if (aboutContent && window.innerWidth < 1300) {
             aboutContent.style.display = 'block';
             aboutContent.style.gridTemplateColumns = '1fr';
+        }
+        
+        // Fix for mobile devices - eliminacja pustej przestrzeni pod mapą
+        if (window.innerWidth <= 480) {
+            setTimeout(function() {
+                map.invalidateSize();
+                if (mapContainer2) {
+                    // Ustawienie dokładnej wysokości kontenera równej mapie
+                    mapContainer2.style.height = 'auto';
+                    mapContainer2.style.minHeight = 'auto';
+                    mapContainer.style.marginBottom = '0';
+                }
+            }, 500);
         }
         
         // Add OpenStreetMap tiles with custom styling
@@ -154,6 +186,26 @@ document.addEventListener('DOMContentLoaded', function() {
             maxZoom: 18,
             className: 'map-tiles'
         }).addTo(map);
+        
+        // Nasłuchuj zdarzenia zmiany rozmiaru okna
+        window.addEventListener('resize', function() {
+            setTimeout(function() {
+                map.invalidateSize();
+                const mapContainer2 = document.querySelector('.map-container');
+                const mapElement = document.getElementById('google-map');
+                
+                if (mapContainer2 && mapElement) {
+                    if (window.innerWidth <= 768) {
+                        // Eliminacja pustej przestrzeni pod mapą na mobilnych
+                        mapContainer2.style.height = 'auto';
+                        mapContainer2.style.minHeight = 'auto';
+                        mapElement.style.marginBottom = '0';
+                    } else {
+                        mapContainer2.style.minHeight = '400px';
+                    }
+                }
+            }, 200);
+        });
         
         // Custom marker icon
         const customIcon = L.divIcon({
@@ -226,20 +278,48 @@ document.addEventListener('DOMContentLoaded', function() {
                     map.invalidateSize();
                     // Force container dimensions
                     const container = document.getElementById('google-map');
+                    const mapContainer2 = document.querySelector('.map-container');
+                    
                     if (container) {
                         container.style.width = '100%';
                         container.style.maxWidth = '100%';
+                        
+                        // Eliminacja pustej przestrzeni pod mapą na mobile
+                        if (window.innerWidth <= 480 && mapContainer2) {
+                            mapContainer2.style.height = 'auto';
+                            mapContainer2.style.minHeight = 'auto';
+                            container.style.marginBottom = '0';
+                        }
                     }
                 }
             }, 100);
         });
         
-        // Initial resize to ensure proper sizing
+        // Initial resize to ensure proper sizing and eliminate empty space
+        setTimeout(() => {
+            if (map) {
+                map.invalidateSize();
+                
+                // Final adjustments for container sizing
+                const mapContainer2 = document.querySelector('.map-container');
+                if (mapContainer && mapContainer2) {
+                    if (window.innerWidth <= 480) {
+                        mapContainer.style.height = '250px';
+                        mapContainer2.style.minHeight = 'auto';
+                        mapContainer2.style.height = 'auto';
+                        mapContainer2.style.marginBottom = '1rem';
+                        mapContainer2.style.overflow = 'visible';
+                    }
+                }
+            }
+        }, 500);
+        
+        // Second pass to ensure map is properly sized
         setTimeout(() => {
             if (map) {
                 map.invalidateSize();
             }
-        }, 500);
+        }, 1000);
     }
     
     function showMapFallback() {
