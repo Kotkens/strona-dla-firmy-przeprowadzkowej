@@ -131,6 +131,23 @@ document.addEventListener('DOMContentLoaded', function() {
             keyboard: true
         });
         
+        // Force container to full width
+        mapContainer.style.width = '100%';
+        mapContainer.style.maxWidth = '100%';
+        mapContainer.style.minWidth = '0';
+        
+        // Also force parent containers
+        const aboutMap = mapContainer.closest('.about-map');
+        const aboutContent = mapContainer.closest('.about-content');
+        if (aboutMap) {
+            aboutMap.style.width = '100%';
+            aboutMap.style.maxWidth = '100%';
+        }
+        if (aboutContent && window.innerWidth < 1300) {
+            aboutContent.style.display = 'block';
+            aboutContent.style.gridTemplateColumns = '1fr';
+        }
+        
         // Add OpenStreetMap tiles with custom styling
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
@@ -189,15 +206,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 maxWidth: 250,
                 className: 'custom-popup'
             });
-            
-            // Add bounce effect on mouseover
-            marker.on('mouseover', function() {
-                this.getElement().style.animation = 'bounce 0.6s ease-in-out';
-            });
-            
-            marker.on('animationend', function() {
-                this.getElement().style.animation = '';
-            });
         });
         
         // Fit map to show all markers
@@ -205,6 +213,33 @@ document.addEventListener('DOMContentLoaded', function() {
             L.marker([city.lat, city.lng])
         ));
         map.fitBounds(group.getBounds().pad(0.1));
+        
+        // Force map to resize to container
+        setTimeout(() => {
+            map.invalidateSize();
+        }, 100);
+        
+        // Handle window resize
+        window.addEventListener('resize', () => {
+            setTimeout(() => {
+                if (map) {
+                    map.invalidateSize();
+                    // Force container dimensions
+                    const container = document.getElementById('google-map');
+                    if (container) {
+                        container.style.width = '100%';
+                        container.style.maxWidth = '100%';
+                    }
+                }
+            }, 100);
+        });
+        
+        // Initial resize to ensure proper sizing
+        setTimeout(() => {
+            if (map) {
+                map.invalidateSize();
+            }
+        }, 500);
     }
     
     function showMapFallback() {

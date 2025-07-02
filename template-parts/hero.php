@@ -63,11 +63,30 @@
   gap: 1.2rem;
   color: var(--clr-primary);
 }
+
+.hero__badge {
+  background: var(--clr-accent);
+  color: #fff;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  display: inline-block;
+  width: fit-content;
+  margin-bottom: 0.5rem;
+}
+
 .hero__title {
   margin: 0;
   font-size: clamp(1.8rem, 4vw, 2.6rem);
   font-weight: 900;
   line-height: 1.15;
+}
+
+.hero__highlight {
+  color: var(--clr-accent);
 }
 .hero__desc {
   margin: 0;
@@ -78,50 +97,83 @@
 .btn {
   background: var(--clr-accent);
   color: #fff;
-  padding: 1em 2.4em;
-  border-radius: 6px;
-  font-weight: 700;
+  padding: 0.9em 1.8em;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.95rem;
   text-decoration: none;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, .07);
+  box-shadow: 0 3px 12px rgba(33, 115, 70, 0.25);
   display: inline-block;
-  transition: opacity .2s;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  width: fit-content;
 }
 .btn:hover {
-  opacity: .9;
+  background: #145233;
+  color: #fff;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 16px rgba(33, 115, 70, 0.35);
 }
 
-/* responsywność: obraz nad tekstem poniżej 768px */
-@media (max-width: 768px) {
+/* responsywność: obraz nad tekstem poniżej 1200px */
+@media (max-width: 1200px) {
   .hero {
     flex-direction: column;
+    text-align: center;
   }
   .hero__img {
     min-width: auto;
-    height: 260px;
+    height: 300px;
+  }
+  .hero__img::after {
+    display: none; /* Usuń gradient przy layout kolumnowym */
   }
   .hero__content {
     max-width: none;
     padding: 2rem;
+    align-items: center;
+    text-align: center;
+  }
+  .hero__badge,
+  .hero__title,
+  .hero__desc,
+  .btn {
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+@media (max-width: 768px) {
+  .hero__img {
+    height: 260px;
+  }
+  .hero__content {
+    padding: 1.5rem;
   }
 }
 </style>
 
-<section id="home" class="hero">
+<section id="hero" class="hero">
   <div class="hero__img">
     <img src="<?php echo esc_url( get_template_directory_uri() . '/assets/images/moving_out.png' ); ?>"
          alt="moving out family">
   </div>
 
   <div class="hero__content">
+    <div class="hero__badge">#1 FIRMA PRZEPROWADZKOWA</div>
+    
     <h1 class="hero__title">
-      TWOJA ZAUFANA<br>
-      FIRMA&nbsp;PRZEPROWADZKOWA
+      <span class="hero__highlight">MOVERO</span><br>
+      TWOJA ZAUFANA FIRMA PRZEPROWADZKOWA
     </h1>
 
     <p class="hero__desc">
-      Oferujemy niezawodne i sprawne usługi przeprowadzkowe dla domu i&nbsp;firmy.
+      Szybkie, bezpieczne i profesjonalne przeprowadzki w całej Polsce. 
+      Ponad 500 zadowolonych klientów rocznie. 
+      Zadzwoń na <strong>+48 123 456 789</strong>
     </p>
 
-    <a href="#contact" class="btn">UZYSKAJ&nbsp;WYCENĘ</a>
+    <a href="#kontakt" class="btn"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg> SKONTAKTUJ SIĘ</a>
   </div>
 </section>

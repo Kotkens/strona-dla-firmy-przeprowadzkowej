@@ -62,11 +62,11 @@ function mytheme_enqueue() {
  */
 function mytheme_fallback_menu() {
 	echo '<ul class="main-menu">';
-	echo '<li><a href="#home">HOME</a></li>';
-	echo '<li><a href="#about">ABOUT</a></li>';
-	echo '<li><a href="#services">SERVICES</a></li>';
-	echo '<li><a href="#pricing">PRICING</a></li>';
-	echo '<li><a href="#contact">CONTACT</a></li>';
+	echo '<li><a href="#home">STRONA GŁÓWNA</a></li>';
+	echo '<li><a href="#services">USŁUGI</a></li>';
+	echo '<li><a href="#pricing">CENNIK</a></li>';
+	echo '<li><a href="#about">O NAS</a></li>';
+	echo '<li><a href="#contact">KONTAKT</a></li>';
 	echo '<li class="phone-number"><a href="tel:+48123456789"><i class="phone-icon">📞</i> +48 123 456 789</a></li>';
 	echo '</ul>';
 }
@@ -125,29 +125,57 @@ function mytheme_get_service_icon($icon_name) {
  * Można użyć w panelu administracyjnym lub Custom Fields
  */
 function mytheme_get_services() {
-    // Można rozszerzyć o ACF/Meta Fields
-    return apply_filters('mytheme_services_list', [
+    // Domyślne usługi - można łatwo dodawać nowe przez filtr 'mytheme_services_list'
+    $default_services = [
         [
             'title' => 'PRZEPROWADZKI LOKALNE',
-            'description' => 'Przeprowadzki lokalne i mieszkaniowe',
+            'description' => 'Przeprowadzki lokalne i mieszkaniowe w obrębie miasta',
             'icon' => 'home'
         ],
         [
-            'title' => 'PRZEPROWADZKI MIĘDZYMIASTOWE', 
+            'title' => 'TRANSPORT DALEKI', 
             'description' => 'Przeprowadzki do innego miasta lub województwa',
             'icon' => 'truck'
         ],
         [
             'title' => 'USŁUGI PAKOWANIA',
-            'description' => 'Profesjonalne pakowanie Twoich rzeczy',
+            'description' => 'Profesjonalne pakowanie Twoich rzeczy w materiały ochronne',
             'icon' => 'box'
         ],
         [
-            'title' => 'MAGAZYNOWANIE',
-            'description' => 'Bezpieczne i elastyczne opcje przechowywania',
+            'title' => 'PRZECHOWYWANIE',
+            'description' => 'Bezpieczne i elastyczne opcje przechowywania w magazynach',
             'icon' => 'warehouse'
+        ],
+        [
+            'title' => 'MONTAŻ MEBLI',
+            'description' => 'Demontaż i montaż mebli podczas przeprowadzki',
+            'icon' => 'users'
+        ],
+        [
+            'title' => 'EXPRESS 24H',
+            'description' => 'Pilne przeprowadzki w trybie express do 24 godzin',
+            'icon' => 'clock'
         ]
-    ]);
+    ];
+    
+    // Umożliwia dodawanie/modyfikowanie usług przez wtyczki lub funkcje motywu
+    return apply_filters('mytheme_services_list', $default_services);
+}
+
+/**
+ * Funkcja pomocnicza do dodawania nowych usług programowo
+ * Przykład użycia: mytheme_add_service('NOWA USŁUGA', 'Opis usługi', 'shield');
+ */
+function mytheme_add_service($title, $description, $icon = 'box') {
+    add_filter('mytheme_services_list', function($services) use ($title, $description, $icon) {
+        $services[] = [
+            'title' => $title,
+            'description' => $description,
+            'icon' => $icon
+        ];
+        return $services;
+    });
 }
 
 /**
@@ -158,32 +186,32 @@ function mytheme_get_gallery_items() {
         [
             'title' => 'Przeprowadzka mieszkania',
             'description' => 'Kompleksowa przeprowadzka rodziny z 3-pokojowego mieszkania',
-            'image' => get_template_directory_uri() . '/assets/images/gallery/apartment-move.jpg'
+            'image' => 'przeprowadzka mieszkaniowa.jpg'
         ],
         [
             'title' => 'Transport mebli',
             'description' => 'Bezpieczny transport dużych mebli i sprzętu AGD',
-            'image' => get_template_directory_uri() . '/assets/images/gallery/furniture-transport.jpg'
+            'image' => 'transport mebli.jpg'
         ],
         [
             'title' => 'Przeprowadzka biura',
             'description' => 'Profesjonalna przeprowadzka biura z minimalnymi przestojami',
-            'image' => get_template_directory_uri() . '/assets/images/gallery/office-move.jpg'
+            'image' => 'przeprowadzka biura.png'
         ],
         [
             'title' => 'Pakowanie rzeczy',
             'description' => 'Staranne pakowanie cennych przedmiotów i dokumentów',
-            'image' => get_template_directory_uri() . '/assets/images/gallery/packing-service.jpg'
-        ],
-        [
-            'title' => 'Transport długodystansowy',
-            'description' => 'Międzymiastowe przeprowadzki na terenie całego kraju',
-            'image' => get_template_directory_uri() . '/assets/images/gallery/long-distance.jpg'
+            'image' => 'pakowanie rzeczy.png'
         ],
         [
             'title' => 'Magazynowanie',
             'description' => 'Tymczasowe przechowywanie rzeczy w bezpiecznym magazynie',
-            'image' => get_template_directory_uri() . '/assets/images/gallery/storage.jpg'
+            'image' => 'Magazynowanie.png'
+        ],
+        [
+            'title' => 'Przeprowadzka domu',
+            'description' => 'Kompleksowa przeprowadzka całego domu jednorodzinnego',
+            'image' => 'przeprowadzka domu.png'
         ]
     ];
     
@@ -194,21 +222,22 @@ function mytheme_get_gallery_items() {
  * Fallback dla brakujących obrazów galerii
  */
 function mytheme_gallery_fallback_image() {
-    // Używamy placeholder service dla demonstracji
-    return 'https://via.placeholder.com/400x250/217346/ffffff?text=MOVERO';
+    // Używamy istniejący obraz moving_out.png jako fallback
+    return get_template_directory_uri() . '/assets/images/moving_out.png';
 }
 
 /**
  * Sprawdza czy obraz istnieje, jeśli nie - zwraca fallback
  */
 function mytheme_get_gallery_image($image_path) {
-    $full_path = get_template_directory() . str_replace(get_template_directory_uri(), '', $image_path);
-    
-    if (file_exists($full_path)) {
+    // Jeśli to już pełny URL, zwróć go
+    if (strpos($image_path, 'http') === 0) {
         return $image_path;
     }
     
-    return mytheme_gallery_fallback_image();
+    // W przeciwnym razie, po prostu zwróć URL do lokalnego pliku
+    // WordPress automatycznie obsłuży 404 dla nieistniejących plików
+    return get_template_directory_uri() . '/assets/images/image_section/' . $image_path;
 }
 
 /**
@@ -221,7 +250,7 @@ function mytheme_get_pricing_plans() {
             'price' => '299',
             'period' => 'za usługę',
             'description' => 'Wynajem samochodu z kierowcą. Idealne gdy sam pakujesz swoje rzeczy.',
-            'icon' => '🚗',
+            'icon' => '<svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="3" width="15" height="13"></rect><polygon points="16,8 20,8 23,11 23,16 16,16"></polygon><circle cx="5.5" cy="18.5" r="2.5"></circle><circle cx="18.5" cy="18.5" r="2.5"></circle></svg>',
             'featured' => false,
             'features' => [
                 'Samochód dostawczy do 3,5t',
@@ -237,7 +266,7 @@ function mytheme_get_pricing_plans() {
             'price' => '449', 
             'period' => 'za usługę',
             'description' => 'Wynajem samochodu z tragarzem. Gdy potrzebujesz pomocy przy noszeniu.',
-            'icon' => '💪',
+            'icon' => '<svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16V8z"></path><path d="m3.3 7 8.7 5 8.7-5"></path><path d="M12 22V12"></path><path d="M12 12L3.3 7"></path><path d="M20.7 7L12 12"></path></svg>',
             'featured' => true,
             'features' => [
                 'Samochód dostawczy do 3,5t',
@@ -254,7 +283,7 @@ function mytheme_get_pricing_plans() {
             'price' => '649',
             'period' => 'za usługę', 
             'description' => 'Pełna obsługa z dwoma tragarzami. My zapakujemy Twoje rzeczy.',
-            'icon' => '📦',
+            'icon' => '<svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"></polygon></svg>',
             'featured' => false,
             'features' => [
                 'Samochód dostawczy do 3,5t',
@@ -285,3 +314,31 @@ function mytheme_get_additional_services() {
         'Praca w weekend' => '+50zł'
     ];
 }
+
+/**
+ * PRZYKŁAD UŻYCIA ELASTYCZNEJ SEKCJI USŁUG:
+ * 
+ * 1. Dodanie nowej usługi programowo:
+ *    mytheme_add_service('UBEZPIECZENIE PREMIUM', 'Dodatkowa ochrona mienia podczas transportu', 'shield');
+ * 
+ * 2. Dodanie usług przez filtr (w functions.php lub wtyczce):
+ *    add_filter('mytheme_services_list', function($services) {
+ *        $services[] = [
+ *            'title' => 'CZYSZCZENIE PO PRZEPROWADZCE',
+ *            'description' => 'Sprzątanie mieszkania po przeprowadzce',
+ *            'icon' => 'shield'
+ *        ];
+ *        return $services;
+ *    });
+ * 
+ * 3. Dostępne ikony SVG:
+ *    - 'home' (dom)
+ *    - 'truck' (ciężarówka)
+ *    - 'box' (pudełko)
+ *    - 'warehouse' (magazyn)
+ *    - 'clock' (zegar)
+ *    - 'shield' (tarcza)
+ *    - 'users' (ludzie)
+ * 
+ * Sekcja automatycznie dostosuje się do dowolnej liczby usług!
+ */

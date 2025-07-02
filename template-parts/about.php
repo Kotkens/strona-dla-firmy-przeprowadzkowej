@@ -41,15 +41,15 @@ $cities = array(
 $cities = apply_filters('movero_map_cities', $cities);
 ?>
 
-<section id="about" class="about-section">
+<section id="o-nas" class="about-section">
     <div class="about-container">
         <div class="about-content">
             <div class="about-text">
                 <h2>O firmie MOVERO</h2>
                 <p class="about-description">
-                    Jesteśmy profesjonalną firmą przeprowadzkową z wieloletnim doświadczeniem. 
-                    Obsługujemy klientów w głównych miastach Polski, oferując kompleksowe usługi 
-                    przeprowadzkowe z najwyższym standardem jakości.
+                    Działamy od ponad 10 lat na rynku przeprowadzkowym, budując zaufanie klientów 
+                    dzięki rzetelności i terminowości. Nasz zespół składa się z doświadczonych 
+                    specjalistów, którzy zadbają o bezpieczeństwo Twojego mienia podczas każdej przeprowadzki.
                 </p>
                 <div class="about-stats">
                     <div class="stat-item">
@@ -98,8 +98,9 @@ $cities = apply_filters('movero_map_cities', $cities);
                     </script>
                 </div>
             </div>
-                </div>
-            </div>
         </div>
     </div>
 </section>
+
+<!-- Clearfix i separator między sekcjami -->
+<div class="section-separator" style="clear: both; height: 0; overflow: hidden; width: 100%; margin: 0; padding: 0; border: none;"></div>

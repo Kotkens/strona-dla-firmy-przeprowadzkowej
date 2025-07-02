@@ -38,9 +38,20 @@
 
 .image-gallery {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-template-columns: repeat(3, 1fr);
   gap: 2rem;
   margin-bottom: 3rem;
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Responsywność dla tabletów */
+@media (max-width: 1024px) {
+  .image-gallery {
+    grid-template-columns: repeat(2, 1fr);
+    max-width: 800px;
+  }
 }
 
 .gallery-item {
@@ -159,7 +170,5 @@
       </div>
       <?php endforeach; ?>
     </div>
-    
-    <a href="#contact" class="image-section-cta">Zobacz więcej realizacji</a>
   </div>
 </section>
