@@ -250,7 +250,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 <div style="padding: 8px; max-width: 200px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">
                     <h4 style="margin: 0 0 8px 0; color: #217346; font-size: 16px; font-weight: 700;">${city.name}</h4>
                     <p style="margin: 0 0 10px 0; font-size: 14px; line-height: 1.4; color: #333;">${city.info}</p>
-                    <a href="#contact" onclick="scrollToContact(); return false;" style="color: #217346; font-weight: 600; text-decoration: none; font-size: 14px;">Skontaktuj się →</a>
+                    <a href="#kontakt" onclick="scrollToContact(); return false;" style="color: #217346; font-weight: 600; text-decoration: none; font-size: 14px;">Skontaktuj się →</a>
                 </div>
             `;
             
@@ -336,7 +336,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Global function for popup links
     window.scrollToContact = function() {
-        const contactSection = document.querySelector('#contact');
+        const contactSection = document.querySelector('#kontakt');
         if (contactSection) {
             const headerHeight = document.querySelector('.site-header').offsetHeight;
             const targetPosition = contactSection.offsetTop - headerHeight - 20;
