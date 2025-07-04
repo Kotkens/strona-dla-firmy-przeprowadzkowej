@@ -134,9 +134,10 @@
   padding: 0.75rem 0;
   border-bottom: 1px solid #f0f0f0;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   font-size: 0.95rem;
   color: #555;
+  text-align: left;
 }
 
 .pricing-features li:last-child {
@@ -149,6 +150,8 @@
   font-weight: bold;
   margin-right: 12px;
   font-size: 1.1rem;
+  flex-shrink: 0;
+  margin-top: 2px;
 }
 
 .pricing-button {

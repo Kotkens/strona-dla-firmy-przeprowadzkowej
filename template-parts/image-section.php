@@ -87,12 +87,12 @@
   background: linear-gradient(transparent, rgba(26, 60, 52, 0.9));
   color: #fff;
   padding: 2rem 1.5rem 1.5rem;
-  transform: translateY(100%);
-  transition: transform 0.3s ease;
+  transform: translateY(0);
+  transition: all 0.3s ease;
 }
 
 .gallery-item:hover .gallery-overlay {
-  transform: translateY(0);
+  background: linear-gradient(transparent, rgba(26, 60, 52, 0.95));
 }
 
 .gallery-overlay h4 {
@@ -140,7 +140,7 @@
   
   .gallery-overlay {
     transform: translateY(0);
-    background: rgba(26, 60, 52, 0.8);
+    background: linear-gradient(transparent, rgba(26, 60, 52, 0.9));
   }
   
   .image-section-title {
