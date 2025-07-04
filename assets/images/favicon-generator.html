@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Konwerter Favicon SVG → PNG</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #217346;
+            text-align: center;
+        }
+        h2 {
+            color: #145233;
+            border-bottom: 2px solid #217346;
+            padding-bottom: 10px;
+        }
+        canvas {
+            border: 2px solid #ddd;
+            margin: 10px;
+            background: white;
+        }
+        button {
+            background: #217346;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+            font-size: 14px;
+        }
+        button:hover {
+            background: #145233;
+        }
+        .success {
+            color: #217346;
+            font-weight: bold;
+        }
+        .info {
+            background: #e8f4f8;
+            padding: 15px;
+            border-radius: 4px;
+            margin: 10px 0;
+        }
+        .warning {
+            background: #fff3cd;
+            padding: 15px;
+            border-radius: 4px;
+            margin: 10px 0;
+            border-left: 4px solid #ffc107;
+        }
+    </style>
+</head>
+<body>
+    <h1>🚚 Konwerter Favicon - Ciężarówka</h1>
+    
+    <div class="info">
+        <h3>Instrukcja:</h3>
+        <ol>
+            <li>Kliknij przycisk "Konwertuj" dla każdego rozmiaru</li>
+            <li>Kliknij "Pobierz PNG" aby zapisać plik</li>
+            <li>Zastąp stare pliki nowymi w folderze <code>assets/images/</code></li>
+            <li>Wyczyść cache przeglądarki (Ctrl+F5)</li>
+        </ol>
+    </div>
+
+    <div class="container">
+        <h2>16x16 - Mały Favicon</h2>
+        <canvas id="canvas16" width="16" height="16"></canvas>
+        <button onclick="convertSVG(16)">Konwertuj 16x16</button>
+        <button onclick="downloadPNG(16, 'favicon-16x16')">Pobierz PNG</button>
+        <span id="status16"></span>
+    </div>
+
+    <div class="container">
+        <h2>32x32 - Standardowy Favicon</h2>
+        <canvas id="canvas32" width="32" height="32"></canvas>
+        <button onclick="convertSVG(32)">Konwertuj 32x32</button>
+        <button onclick="downloadPNG(32, 'favicon-32x32')">Pobierz PNG</button>
+        <span id="status32"></span>
+    </div>
+
+    <div class="container">
+        <h2>192x192 - Android Chrome</h2>
+        <canvas id="canvas192" width="192" height="192"></canvas>
+        <button onclick="convertSVG(192)">Konwertuj 192x192</button>
+        <button onclick="downloadPNG(192, 'android-chrome-192x192')">Pobierz PNG</button>
+        <span id="status192"></span>
+    </div>
+
+    <div class="container">
+        <h2>180x180 - Apple Touch Icon</h2>
+        <canvas id="canvas180" width="180" height="180"></canvas>
+        <button onclick="convertSVG(180)">Konwertuj 180x180</button>
+        <button onclick="downloadPNG(180, 'apple-touch-icon')">Pobierz PNG</button>
+        <span id="status180"></span>
+    </div>
+
+    <div class="container">
+        <h2>512x512 - Android Chrome (duży)</h2>
+        <canvas id="canvas512" width="512" height="512"></canvas>
+        <button onclick="convertSVG(512)">Konwertuj 512x512</button>
+        <button onclick="downloadPNG(512, 'android-chrome-512x512')">Pobierz PNG</button>
+        <span id="status512"></span>
+    </div>
+
+    <div class="warning">
+        <h3>⚠️ Ważne!</h3>
+        <p>Po pobraniu plików PNG:</p>
+        <ul>
+            <li>Dla favicon.ico - użyj online konwertera PNG→ICO (np. <a href="https://convertio.co/png-ico/" target="_blank">convertio.co</a>)</li>
+            <li>Zamień stare pliki w folderze <code>assets/images/</code></li>
+            <li>Wyczyść cache przeglądarki</li>
+        </ul>
+    </div>
+
+    <script>
+        // SVG z poprawną, proporcjonalną ciężarówką
+        const getSVGContent = (size) => {
+            const scale = {
+                16: 0.45,
+                32: 0.8,
+                180: 3.8,
+                192: 4.5,
+                512: 12
+            };
+            
+            const strokeWidth = {
+                16: 3,
+                32: 2.5,
+                180: 2,
+                192: 2,
+                512: 1.5
+            };
+            
+            const radius = {
+                16: 2,
+                32: 4,
+                180: 20,
+                192: 24,
+                512: 64
+            };
+            
+            return `<svg width="${size}" height="${size}" viewBox="0 0 ${size} ${size}" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect width="${size}" height="${size}" rx="${radius[size]}" fill="#217346"/>
+                <g transform="translate(${size/2}, ${size/2}) scale(${scale[size]}) translate(-12, -12)">
+                    <rect x="3" y="5" width="12" height="9" fill="none" stroke="white" stroke-width="${strokeWidth[size]}" stroke-linecap="round" stroke-linejoin="round"/>
+                    <polygon points="15,8 18,8 21,11 21,14 15,14" fill="none" stroke="white" stroke-width="${strokeWidth[size]}" stroke-linecap="round" stroke-linejoin="round"/>
+                    <circle cx="7" cy="16" r="1.5" fill="none" stroke="white" stroke-width="${strokeWidth[size]}" stroke-linecap="round" stroke-linejoin="round"/>
+                    <circle cx="17" cy="16" r="1.5" fill="none" stroke="white" stroke-width="${strokeWidth[size]}" stroke-linecap="round" stroke-linejoin="round"/>
+                </g>
+            </svg>`;
+        };
+        
+        function convertSVG(size) {
+            const canvas = document.getElementById('canvas' + size);
+            const ctx = canvas.getContext('2d');
+            
+            const img = new Image();
+            const svgContent = getSVGContent(size);
+            const svg = new Blob([svgContent], {type: 'image/svg+xml'});
+            const url = URL.createObjectURL(svg);
+            
+            img.onload = function() {
+                ctx.clearRect(0, 0, size, size);
+                ctx.drawImage(img, 0, 0, size, size);
+                URL.revokeObjectURL(url);
+                
+                document.getElementById('status' + size).innerHTML = '<span class="success">✅ Gotowe!</span>';
+            };
+            
+            img.onerror = function() {
+                document.getElementById('status' + size).innerHTML = '<span style="color: red;">❌ Błąd!</span>';
+            };
+            
+            img.src = url;
+        }
+        
+        function downloadPNG(size, filename) {
+            const canvas = document.getElementById('canvas' + size);
+            const link = document.createElement('a');
+            link.download = filename + '.png';
+            link.href = canvas.toDataURL('image/png');
+            link.click();
+        }
+        
+        // Automatyczna konwersja po załadowaniu strony
+        window.onload = function() {
+            setTimeout(() => {
+                convertSVG(16);
+                convertSVG(32);
+                convertSVG(192);
+                convertSVG(180);
+                convertSVG(512);
+            }, 500);
+        };
+    </script>
+</body>
+</html>

@@ -33,6 +33,9 @@ function mytheme_setup() {
 		'primary' => __( 'Menu główne',  'mytheme' ),
 		'footer'  => __( 'Menu w stopce', 'mytheme' ),
 	] );
+	
+	// ⑤ Wsparcie dla ikon witryny (favicon)
+	add_theme_support( 'site-icon' );
 }
 
 /**
@@ -72,49 +75,118 @@ function mytheme_fallback_menu() {
 }
 
 /**
- * Generuje ikony SVG dla usług
+ * Generuje ikony SVG dla usług w stylu cennika - białe ikony w zielonych kółkach
  */
 function mytheme_get_service_icon($icon_name) {
-    $color = '#217346'; // Główny kolor motywu
-    
     $icons = [
-        'home' => '<svg width="48" height="48" viewBox="0 0 24 24" fill="none">
-            <path d="M3 12L5 10M5 10L12 3L19 10M5 10V20C5 20.5523 5.44772 21 6 21H9M19 10L21 12M19 10V20C19 20.5523 18.5523 21 18 21H15M9 21C9.55228 21 10 20.5523 10 20V16C10 15.4477 10.4477 15 11 15H13C13.5523 15 14 15.4477 14 16V20C14 20.5523 14.4477 21 15 21M9 21H15" stroke="' . $color . '" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>',
-        
-        'truck' => '<svg width="48" height="48" viewBox="0 0 24 24" fill="none">
-            <path d="M1 6H15V16H1V6Z" stroke="' . $color . '" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M16 10H20L23 13V16H16V10Z" stroke="' . $color . '" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            <circle cx="5.5" cy="18.5" r="2.5" stroke="' . $color . '" stroke-width="2"/>
-            <circle cx="18.5" cy="18.5" r="2.5" stroke="' . $color . '" stroke-width="2"/>
-        </svg>',
-        
-        'box' => '<svg width="48" height="48" viewBox="0 0 24 24" fill="none">
-            <path d="M21 8C21 8 19 5 12 5C5 5 3 8 3 8V19C3 20.1046 3.89543 21 5 21H19C20.1046 21 21 20.1046 21 19V8Z" stroke="' . $color . '" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M3 8L12 13L21 8" stroke="' . $color . '" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M12 13V21" stroke="' . $color . '" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>',
-        
-        'warehouse' => '<svg width="48" height="48" viewBox="0 0 24 24" fill="none">
-            <path d="M3 21H21M3 10H21M5 6L12 3L19 6V21H5V6Z" stroke="' . $color . '" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M9 21V15H15V21" stroke="' . $color . '" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>',
-        
-        'clock' => '<svg width="48" height="48" viewBox="0 0 24 24" fill="none">
-            <circle cx="12" cy="12" r="10" stroke="' . $color . '" stroke-width="2"/>
-            <polyline points="12,6 12,12 16,14" stroke="' . $color . '" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>',
-        
-        'shield' => '<svg width="48" height="48" viewBox="0 0 24 24" fill="none">
-            <path d="M12 22S8 18 8 12V7L12 5L16 7V12C16 18 12 22 12 22Z" stroke="' . $color . '" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>',
-        
-        'users' => '<svg width="48" height="48" viewBox="0 0 24 24" fill="none">
-            <path d="M17 21V19C17 17.9391 16.5786 16.9217 15.8284 16.1716C15.0783 15.4214 14.0609 15 13 15H5C3.93913 15 2.92172 15.4214 2.17157 16.1716C1.42143 16.9217 1 17.9391 1 19V21" stroke="' . $color . '" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            <circle cx="9" cy="7" r="4" stroke="' . $color . '" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M23 21V19C23 18.1332 22.7155 17.3155 22.2094 16.658C21.7033 16.0006 20.9943 15.5383 20.2 15.341" stroke="' . $color . '" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M16 3.341C16.7943 3.53834 17.5033 4.00061 18.0094 4.65802C18.5155 5.31543 18.8 6.13316 18.8 7C18.8 7.86684 18.5155 8.68457 18.0094 9.34198C17.5033 9.99939 16.7943 10.4617 16 10.659" stroke="' . $color . '" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>'
+        'home' => '<svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <linearGradient id="grad-home" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" style="stop-color:#217346;stop-opacity:1" />
+                            <stop offset="100%" style="stop-color:#145233;stop-opacity:1" />
+                        </linearGradient>
+                    </defs>
+                    <circle cx="40" cy="40" r="40" fill="url(#grad-home)"/>
+                    <g transform="translate(40, 40) scale(1.5) translate(-12, -12)">
+                        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                        <polyline points="9,22 9,12 15,12 15,22" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                    </g>
+                  </svg>',
+        'truck' => '<svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+                     <defs>
+                        <linearGradient id="grad-truck" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" style="stop-color:#217346;stop-opacity:1" />
+                            <stop offset="100%" style="stop-color:#145233;stop-opacity:1" />
+                        </linearGradient>
+                     </defs>
+                     <circle cx="40" cy="40" r="40" fill="url(#grad-truck)"/>
+                     <g transform="translate(40, 40) scale(1.5) translate(-12, -12)">
+                        <rect x="1" y="3" width="15" height="13" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                        <polygon points="16,8 20,8 23,11 23,16 16,16" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                        <circle cx="5.5" cy="18.5" r="2.5" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                        <circle cx="18.5" cy="18.5" r="2.5" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                     </g>
+                   </svg>',
+        'box' => '<svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+                   <defs>
+                      <linearGradient id="grad-box" x1="0%" y1="0%" x2="100%" y2="100%">
+                          <stop offset="0%" style="stop-color:#217346;stop-opacity:1" />
+                          <stop offset="100%" style="stop-color:#145233;stop-opacity:1" />
+                      </linearGradient>
+                   </defs>
+                   <circle cx="40" cy="40" r="40" fill="url(#grad-box)"/>
+                   <g transform="translate(40, 40) scale(1.5) translate(-12, -12)">
+                      <path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16V8z" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                      <path d="m3.3 7 8.7 5 8.7-5" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                      <path d="M12 22V12" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                   </g>
+                 </svg>',
+        'warehouse' => '<svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+                         <defs>
+                            <linearGradient id="grad-warehouse" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" style="stop-color:#217346;stop-opacity:1" />
+                                <stop offset="100%" style="stop-color:#145233;stop-opacity:1" />
+                            </linearGradient>
+                         </defs>
+                         <circle cx="40" cy="40" r="40" fill="url(#grad-warehouse)"/>
+                         <g transform="translate(40, 40) scale(1.5) translate(-12, -12)">
+                            <path d="M2 20h20" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M4 20V10l8-6 8 6v10" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                            <rect x="8" y="14" width="8" height="6" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                         </g>
+                       </svg>',
+        'clock' => '<svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+                     <defs>
+                        <linearGradient id="grad-clock" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" style="stop-color:#217346;stop-opacity:1" />
+                            <stop offset="100%" style="stop-color:#145233;stop-opacity:1" />
+                        </linearGradient>
+                     </defs>
+                     <circle cx="40" cy="40" r="40" fill="url(#grad-clock)"/>
+                     <g transform="translate(40, 40) scale(1.5) translate(-12, -12)">
+                        <circle cx="12" cy="12" r="10" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                        <polyline points="12,6 12,12 16,14" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                     </g>
+                   </svg>',
+        'tools' => '<svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+                     <defs>
+                        <linearGradient id="grad-tools" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" style="stop-color:#217346;stop-opacity:1" />
+                            <stop offset="100%" style="stop-color:#145233;stop-opacity:1" />
+                        </linearGradient>
+                     </defs>
+                     <circle cx="40" cy="40" r="40" fill="url(#grad-tools)"/>
+                     <g transform="translate(40, 40) scale(1.5) translate(-12, -12)">
+                        <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                     </g>
+                   </svg>',
+        'users' => '<svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+                     <defs>
+                        <linearGradient id="grad-users" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" style="stop-color:#217346;stop-opacity:1" />
+                            <stop offset="100%" style="stop-color:#145233;stop-opacity:1" />
+                        </linearGradient>
+                     </defs>
+                     <circle cx="40" cy="40" r="40" fill="url(#grad-users)"/>
+                     <g transform="translate(40, 40) scale(1.5) translate(-12, -12)">
+                        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                        <circle cx="9" cy="7" r="4" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M23 21v-2a4 4 0 0 0-3-3.87" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M16 3.13a4 4 0 0 1 0 7.75" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                     </g>
+                   </svg>',
+        'shield' => '<svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <defs>
+                         <linearGradient id="grad-shield" x1="0%" y1="0%" x2="100%" y2="100%">
+                             <stop offset="0%" style="stop-color:#217346;stop-opacity:1" />
+                             <stop offset="100%" style="stop-color:#145233;stop-opacity:1" />
+                         </linearGradient>
+                      </defs>
+                      <circle cx="40" cy="40" r="40" fill="url(#grad-shield)"/>
+                      <g transform="translate(40, 40) scale(1.5) translate(-12, -12)">
+                         <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                      </g>
+                    </svg>'
     ];
     
     return isset($icons[$icon_name]) ? $icons[$icon_name] : $icons['box']; // fallback to box icon
@@ -150,7 +222,7 @@ function mytheme_get_services() {
         [
             'title' => 'MONTAŻ MEBLI',
             'description' => 'Demontaż i montaż mebli podczas przeprowadzki',
-            'icon' => 'users'
+            'icon' => 'tools'
         ],
         [
             'title' => 'EXPRESS 24H',
@@ -342,3 +414,38 @@ function mytheme_get_additional_services() {
  * 
  * Sekcja automatycznie dostosuje się do dowolnej liczby usług!
  */
+
+/**
+ * Dodaje kompletny zestaw favicon do HEAD - obsługuje wszystkie urządzenia
+ */
+add_action( 'wp_head', 'mytheme_add_favicon', 5 );
+function mytheme_add_favicon() {
+    // Jeśli nie ma ustawionej ikony witryny w panelu administracyjnym
+    if ( ! has_site_icon() ) {
+        $favicon_path = get_template_directory_uri() . '/assets/images/';
+        
+        // Nowoczesny SVG favicon (najlepsza jakość)
+        echo '<link rel="icon" type="image/svg+xml" href="' . esc_url( $favicon_path . 'favicon-new.svg' ) . '">' . "\n";
+        
+        // Fallback PNG dla starszych przeglądarek
+        echo '<link rel="icon" type="image/png" sizes="32x32" href="' . esc_url( $favicon_path . 'favicon-32x32.png' ) . '">' . "\n";
+        echo '<link rel="icon" type="image/png" sizes="16x16" href="' . esc_url( $favicon_path . 'favicon-16x16.png' ) . '">' . "\n";
+        
+        // Favicon ICO dla najstarszych przeglądarek
+        echo '<link rel="icon" type="image/x-icon" href="' . esc_url( $favicon_path . 'favicon.ico' ) . '">' . "\n";
+        
+        // Apple Touch Icon
+        echo '<link rel="apple-touch-icon" sizes="180x180" href="' . esc_url( $favicon_path . 'apple-touch-icon.png' ) . '">' . "\n";
+        
+        // Android Chrome Icons
+        echo '<link rel="icon" type="image/png" sizes="192x192" href="' . esc_url( $favicon_path . 'android-chrome-192x192.png' ) . '">' . "\n";
+        echo '<link rel="icon" type="image/png" sizes="512x512" href="' . esc_url( $favicon_path . 'android-chrome-512x512.png' ) . '">' . "\n";
+        
+        // Web App Manifest
+        echo '<link rel="manifest" href="' . esc_url( $favicon_path . 'site.webmanifest' ) . '">' . "\n";
+        
+        // Meta tagi dla różnych urządzeń
+        echo '<meta name="theme-color" content="#217346">' . "\n";
+        echo '<meta name="msapplication-TileColor" content="#217346">' . "\n";
+    }
+}
